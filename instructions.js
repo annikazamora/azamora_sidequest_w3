@@ -26,7 +26,7 @@ function drawInstr() {
   // \n creates a line break in the text
   // This is useful for simple multi-line instructions
   const lines =
-    "Press the game button.\n" + "You have a chance to win or lose!";
+    "Press the game button.\n" + "You have the choice to pick from 3 doors";
 
   text(lines, width / 2, 160);
 
@@ -42,6 +42,12 @@ function drawInstr() {
 
   // Draw the back button
   drawInstrButton(backBtn);
+
+  // ---- Win/Loss tracker ----
+  fill(0);
+  textSize(16);
+  textAlign(RIGHT, TOP);
+  text(`Wins: ${winCount}  Losses: ${lossCount}`, width - 20, 20);
 
   // Change cursor when hovering over the button
   cursor(isHover(backBtn) ? HAND : ARROW);

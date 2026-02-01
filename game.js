@@ -6,19 +6,13 @@
 // 3) helper functions specific to this screen
 
 // ------------------------------
-// Button data
+// Door data
 // ------------------------------
-// This object stores all the information needed to draw
-// and interact with the button on the game screen.
-// Keeping this in one object makes it easier to move,
-// resize, or restyle the button later.
-const gameBtn = {
-  x: 400, // x position (centre of the button)
-  y: 550, // y position (centre of the button)
-  w: 260, // width
-  h: 90, // height
-  label: "PRESS HERE", // text shown on the button
-};
+const doors = [
+  { x: 180, y: 300, w: 120, h: 150 },
+  { x: 400, y: 300, w: 120, h: 150 },
+  { x: 620, y: 300, w: 120, h: 150 },
+];
 
 // ------------------------------
 // Main draw function for this screen
@@ -33,55 +27,46 @@ function drawGame() {
   fill(0); // black text
   textSize(32);
   textAlign(CENTER, CENTER);
-  text("Game Screen", width / 2, 160);
+  text("Welcome...", width / 2, 160);
 
   textSize(18);
-  text(
-    "Click the button (or press ENTER) for a random result.",
-    width / 2,
-    210,
-  );
+  text("Choose a door to proceed.", width / 2, 210);
 
-  // ---- Draw the button ----
-  // We pass the button object to a helper function
-  drawGameButton(gameBtn);
+  // ---- Draw the doors ----
+  doors.forEach((door) => drawDoor(door));
+
+  // ---- Win/Loss tracker ----
+  fill(0);
+  textSize(16);
+  textAlign(RIGHT, TOP);
+  text(`Wins: ${winCount}  Losses: ${lossCount}`, width - 20, 20);
 
   // ---- Cursor feedback ----
-  // If the mouse is over the button, show a hand cursor
+  // If the mouse is over any door, show a hand cursor
   // Otherwise, show the normal arrow cursor
-  cursor(isHover(gameBtn) ? HAND : ARROW);
+  const overDoor = doors.some((door) => isHover(door));
+  cursor(overDoor ? HAND : ARROW);
 }
 
 // ------------------------------
-// Button drawing helper
+// Door drawing helper
 // ------------------------------
-// This function is responsible *only* for drawing the button.
-// It does NOT handle clicks or game logic.
-function drawGameButton({ x, y, w, h, label }) {
+function drawDoor({ x, y, w, h }) {
   rectMode(CENTER);
 
-  // Check if the mouse is hovering over the button
-  // isHover() is defined in main.js so it can be shared
   const hover = isHover({ x, y, w, h });
 
   noStroke();
 
-  // Change button colour when hovered
-  // This gives visual feedback to the player
-  fill(
-    hover
-      ? color(180, 220, 255, 220) // lighter blue on hover
-      : color(200, 220, 255, 190), // normal state
-  );
+  // Brown color for door
+  fill(hover ? color(139, 69, 19, 200) : color(160, 82, 45, 180));
 
-  // Draw the button rectangle
-  rect(x, y, w, h, 14); // last value = rounded corners
+  // Draw the door rectangle
+  rect(x, y, w, h);
 
-  // Draw the button text
-  fill(0);
-  textSize(28);
-  textAlign(CENTER, CENTER);
-  text(label, x, y);
+  // Draw the doorknob: small yellow circle on the right side
+  fill(255, 255, 0);
+  ellipse(x + w / 2 - 15, y, 15, 15);
 }
 
 // ------------------------------
@@ -90,9 +75,12 @@ function drawGameButton({ x, y, w, h, label }) {
 // This function is called from main.js
 // only when currentScreen === "game"
 function gameMousePressed() {
-  // Only trigger the outcome if the button is clicked
-  if (isHover(gameBtn)) {
-    triggerRandomOutcome();
+  // Check if a door is clicked
+  for (let i = 0; i < doors.length; i++) {
+    if (isHover(doors[i])) {
+      triggerDoorOutcome(i);
+      return;
+    }
   }
 }
 
@@ -101,28 +89,15 @@ function gameMousePressed() {
 // ------------------------------
 // Allows keyboard-only interaction (accessibility + design)
 function gameKeyPressed() {
-  // ENTER key triggers the same behaviour as clicking the button
-  if (keyCode === ENTER) {
-    triggerRandomOutcome();
-  }
+  // No keyboard input for this screen
 }
 
 // ------------------------------
-// Game logic: win or lose
+// Door outcome logic
 // ------------------------------
-// This function decides what happens next in the game.
-// It does NOT draw anything.
-function triggerRandomOutcome() {
-  // random() returns a value between 0 and 1
-  // Here we use a 50/50 chance:
-  // - less than 0.5 → win
-  // - 0.5 or greater → lose
-  //
-  // You can bias this later, for example:
-  // random() < 0.7 → 70% chance to win
-  if (random() < 0.5) {
-    currentScreen = "win";
-  } else {
-    currentScreen = "lose";
-  }
+function triggerDoorOutcome(doorIndex) {
+  // Randomly select one of the three door outcomes
+  const outcomes = ["door1", "door2", "door3"];
+  const randomOutcome = random(outcomes);
+  currentScreen = randomOutcome;
 }

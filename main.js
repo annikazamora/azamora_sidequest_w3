@@ -22,7 +22,11 @@
 // We store the “name” of the current screen as a string.
 // Only one screen should be active at a time.
 let currentScreen = "start"; // "start" | "instr" | "game" | "win" | "lose"
-
+// ------------------------------
+// Win/Loss tracker
+// ------------------------------
+let winCount = 0;
+let lossCount = 0;
 // ------------------------------
 // setup() runs ONCE at the beginning
 // ------------------------------
@@ -47,12 +51,18 @@ function draw() {
   //   game.js          → drawGame()
   //   win.js           → drawWin()
   //   lose.js          → drawLose()
+  //   door1.js         → drawDoor1()
+  //   door2.js         → drawDoor2()
+  //   door3.js         → drawDoor3()
 
   if (currentScreen === "start") drawStart();
   else if (currentScreen === "instr") drawInstr();
   else if (currentScreen === "game") drawGame();
   else if (currentScreen === "win") drawWin();
   else if (currentScreen === "lose") drawLose();
+  else if (currentScreen === "door1") drawDoor1();
+  else if (currentScreen === "door2") drawDoor2();
+  else if (currentScreen === "door3") drawDoor3();
 
   // (Optional teaching note)
   // This “if/else chain” is a very common early approach.
@@ -72,14 +82,20 @@ function mousePressed() {
   // game.js          → gameMousePressed()
   // win.js           → winMousePressed()
   // lose.js          → loseMousePressed()
+  // door1.js         → door1MousePressed()
+  // door2.js         → door2MousePressed()
+  // door3.js         → door3MousePressed()
 
   if (currentScreen === "start") startMousePressed();
   else if (currentScreen === "instr") instrMousePressed();
   else if (currentScreen === "game") gameMousePressed();
-  // The ?.() means “call this function only if it exists”
-  // This prevents errors if a screen doesn’t implement a handler.
+  // The ?.() means "call this function only if it exists"
+  // This prevents errors if a screen doesn't implement a handler.
   else if (currentScreen === "win") winMousePressed?.();
   else if (currentScreen === "lose") loseMousePressed?.();
+  else if (currentScreen === "door1") door1MousePressed?.();
+  else if (currentScreen === "door2") door2MousePressed?.();
+  else if (currentScreen === "door3") door3MousePressed?.();
 }
 
 // ------------------------------
@@ -93,12 +109,18 @@ function keyPressed() {
   // game.js          → gameKeyPressed()
   // win.js           → winKeyPressed()
   // lose.js          → loseKeyPressed()
+  // door1.js         → door1KeyPressed()
+  // door2.js         → door2KeyPressed()
+  // door3.js         → door3KeyPressed()
 
   if (currentScreen === "start") startKeyPressed();
   else if (currentScreen === "instr") instrKeyPressed();
   else if (currentScreen === "game") gameKeyPressed?.();
   else if (currentScreen === "win") winKeyPressed?.();
   else if (currentScreen === "lose") loseKeyPressed?.();
+  else if (currentScreen === "door1") door1KeyPressed?.();
+  else if (currentScreen === "door2") door2KeyPressed?.();
+  else if (currentScreen === "door3") door3KeyPressed?.();
 }
 
 // ------------------------------------------------------------

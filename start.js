@@ -18,7 +18,7 @@ function drawStart() {
   fill(30, 50, 60);
   textSize(46);
   textAlign(CENTER, CENTER);
-  text("Win or Lose", width / 2, 180);
+  text("Pick a Door", width / 2, 180);
 
   // ---- Buttons (data only) ----
   // These objects store the position/size/label for each button.
@@ -43,6 +43,12 @@ function drawStart() {
   // Draw both buttons
   drawButton(startBtn);
   drawButton(instrBtn);
+
+  // ---- Win/Loss tracker ----
+  fill(0);
+  textSize(16);
+  textAlign(RIGHT, TOP);
+  text(`Wins: ${winCount}  Losses: ${lossCount}`, width - 20, 20);
 
   // ---- Cursor feedback ----
   // If the mouse is over either button, show a hand cursor

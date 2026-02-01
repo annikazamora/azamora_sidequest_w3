@@ -23,6 +23,12 @@ function drawLose() {
   // Instruction text
   textSize(20);
   text("Click or press R to return to Start.", width / 2, 360);
+
+  // ---- Win/Loss tracker ----
+  fill(0);
+  textSize(16);
+  textAlign(RIGHT, TOP);
+  text(`Wins: ${winCount}  Losses: ${lossCount}`, width - 20, 20);
 }
 
 // ------------------------------
